@@ -15,8 +15,6 @@ dist-ssr
 
 # Variables de entorno
 .env
-e-commerce-app-backend/.env
-e-commerce-app-frontend/.env
 
 # Editor directories and files
 .vscode/*
