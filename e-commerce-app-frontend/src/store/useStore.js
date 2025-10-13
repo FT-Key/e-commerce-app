@@ -28,11 +28,15 @@ export const useStore = create(
       cart: [],
       addToCart: async (product) => {
         set((state) => {
+          if (!state.user) {
+            window.location.href = "/login";
+            return { cart: state.cart };
+          }
           const exists = state.cart.find((p) => p._id === product._id);
           const updatedCart = exists
             ? state.cart.map((p) => p._id === product._id ? { ...p, quantity: p.quantity + 1 } : p)
             : [...state.cart, { ...product, quantity: 1 }];
-          if (state.user) cartService.updateCart(updatedCart).catch(console.error);
+          cartService.updateCart(updatedCart).catch(console.error);
           return { cart: updatedCart };
         });
       },
@@ -58,8 +62,12 @@ export const useStore = create(
       favorites: [],
       addToFavorites: async (product) => {
         set((state) => {
+          if (!state.user) {
+            window.location.href = "/login";
+            return { favorites: state.favorites };
+          }
           const exists = state.favorites.some((p) => p._id === product._id);
-          if (!exists && state.user) {
+          if (!exists) {
             favoritesService.addFavorite(product._id)
               .then((updatedFavorites) => set({ favorites: updatedFavorites }))
               .catch(console.error);

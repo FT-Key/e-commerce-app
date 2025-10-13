@@ -2,10 +2,21 @@ import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { useStore } from "../store/useStore.js";
 import ProductCard from "../components/ProductCard.jsx";
+import { useNavigate } from "react-router-dom";
 
 const Favorites = () => {
   const favorites = useStore((state) => state.favorites);
   const removeFromFavorites = useStore((state) => state.removeFromFavorites);
+  const user = useStore((state) => state.user);
+  const navigate = useNavigate();
+  
+  const handleRemove = (productId) => {
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+    removeFromFavorites(productId);
+  };
 
   return (
     <Container className="mt-4">
@@ -19,7 +30,7 @@ const Favorites = () => {
               <ProductCard product={product} mode="favorite" />
               <button
                 className="btn btn-danger mt-2 w-100"
-                onClick={() => removeFromFavorites(product._id)}
+                onClick={() => handleRemove(product._id)}
               >
                 Quitar de favoritos
               </button>

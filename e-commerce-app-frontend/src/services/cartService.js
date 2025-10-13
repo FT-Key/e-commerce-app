@@ -14,7 +14,13 @@ export const getCart = async () => {
 // Actualizar todo el carrito (envía array completo de productos)
 export const updateCart = async (cartProducts) => {
   try {
-    const res = await clientAxios.post("/carts", { products: cartProducts });
+    const formattedProducts = cartProducts.map(p => ({
+      productId: p._id,
+      quantity: p.quantity,
+      price: p.price
+    }));
+
+    const res = await clientAxios.post("/carts", { products: formattedProducts });
     return res.data.products || [];
   } catch (error) {
     console.error("Error updating cart:", error);

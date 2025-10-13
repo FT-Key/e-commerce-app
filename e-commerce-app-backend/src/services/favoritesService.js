@@ -11,9 +11,13 @@ export const addFavorite = async (userId, productId) => {
       fav.products.push(productId);
       await fav.save();
     }
-    return fav;
+  } else {
+    await Favorite.create({ user: userId, products: [productId] });
   }
-  return await Favorite.create({ user: userId, products: [productId] });
+
+  // 🔥 IMPORTANTE: devolvemos populate
+  const updated = await Favorite.findOne({ user: userId }).populate("products");
+  return updated;
 };
 
 export const removeFavorite = async (userId, productId) => {
@@ -22,7 +26,10 @@ export const removeFavorite = async (userId, productId) => {
 
   fav.products = fav.products.filter((p) => p.toString() !== productId);
   await fav.save();
-  return fav;
+
+  // 🔥 devolver populateado
+  const updated = await Favorite.findOne({ user: userId }).populate("products");
+  return updated;
 };
 
 export const clearFavorites = async (userId) => {
@@ -31,5 +38,8 @@ export const clearFavorites = async (userId) => {
 
   fav.products = [];
   await fav.save();
-  return fav;
+
+  // 🔥 devolver populateado (aunque vacío)
+  const updated = await Favorite.findOne({ user: userId }).populate("products");
+  return updated;
 };

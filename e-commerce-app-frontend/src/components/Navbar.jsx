@@ -63,29 +63,34 @@ const Navbar = () => {
         <BSNavbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto align-items-center">
 
-            {/* Favoritos */}
-            <OverlayTrigger trigger={["hover", "focus"]} placement="bottom" overlay={renderFavoritesPopover}>
-              <Nav.Link as={Link} to="/favorites" className="position-relative">
-                <FaHeart size={20} />
-                {favorites.length > 0 && (
-                  <Badge bg="danger" pill className="position-absolute top-0 start-100 translate-middle">
-                    {favorites.length}
-                  </Badge>
-                )}
-              </Nav.Link>
-            </OverlayTrigger>
+            {/* Favoritos y Carrito solo si hay usuario */}
+            {user && (
+              <>
+                {/* Favoritos */}
+                <OverlayTrigger trigger={["hover", "focus"]} placement="bottom" overlay={renderFavoritesPopover}>
+                  <Nav.Link as={Link} to="/favorites" className="position-relative">
+                    <FaHeart size={20} />
+                    {favorites.length > 0 && (
+                      <Badge bg="danger" pill className="position-absolute top-0 start-100 translate-middle">
+                        {favorites.length}
+                      </Badge>
+                    )}
+                  </Nav.Link>
+                </OverlayTrigger>
 
-            {/* Carrito */}
-            <OverlayTrigger trigger={["hover", "focus"]} placement="bottom" overlay={renderCartPopover}>
-              <Nav.Link as={Link} to="/cart" className="position-relative">
-                <FaShoppingCart size={20} />
-                {cart.length > 0 && (
-                  <Badge bg="danger" pill className="position-absolute top-0 start-100 translate-middle">
-                    {cart.length}
-                  </Badge>
-                )}
-              </Nav.Link>
-            </OverlayTrigger>
+                {/* Carrito */}
+                <OverlayTrigger trigger={["hover", "focus"]} placement="bottom" overlay={renderCartPopover}>
+                  <Nav.Link as={Link} to="/cart" className="position-relative">
+                    <FaShoppingCart size={20} />
+                    {cart.length > 0 && (
+                      <Badge bg="danger" pill className="position-absolute top-0 start-100 translate-middle">
+                        {cart.length}
+                      </Badge>
+                    )}
+                  </Nav.Link>
+                </OverlayTrigger>
+              </>
+            )}
 
             <Nav.Link as={Link} to="/">Inicio</Nav.Link>
             <Nav.Link as={Link} to="/products">Productos</Nav.Link>
