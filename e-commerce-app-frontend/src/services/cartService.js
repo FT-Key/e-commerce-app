@@ -4,6 +4,7 @@ import clientAxios from "../utils/clientAxios.js";
 export const getCart = async () => {
   try {
     const res = await clientAxios.get("/carts");
+    console.log("RES: ", res)
     return res.data.products || [];
   } catch (error) {
     console.error("Error fetching cart:", error);
