@@ -7,24 +7,31 @@ export const useStore = create(
   persist(
     (set, get) => ({
       user: null,
-      token: null, // <- nuevo
+      token: null,
 
       setUser: async (userData, token) => {
-        set({ user: userData, token }); // <- guardamos token también
+        set({ user: userData, token });
+
         if (userData) {
           try {
+            // Traemos carrito y favoritos del backend
             const cart = await cartService.getCart();
             const favorites = await favoritesService.getFavorites();
-            set({ cart, favorites });
+
+            // Sobrescribimos el estado, evitando mezcla con lo persistido
+            set({ cart: cart || [], favorites: favorites || [] });
           } catch (err) {
             console.error("Error cargando carrito/favoritos:", err);
+            set({ cart: [], favorites: [] });
           }
+        } else {
+          // Si no hay usuario, limpiamos carrito y favoritos
+          set({ cart: [], favorites: [] });
         }
       },
 
-      logout: () => set({ user: null, token: null, cart: [], favorites: [] }), // <- limpiar token
+      logout: () => set({ user: null, token: null, cart: [], favorites: [] }),
 
-      // Carrito y favoritos (igual que antes)
       cart: [],
       addToCart: async (product) => {
         set((state) => {
@@ -32,28 +39,60 @@ export const useStore = create(
             window.location.href = "/login";
             return { cart: state.cart };
           }
+
           const exists = state.cart.find((p) => p._id === product._id);
           const updatedCart = exists
-            ? state.cart.map((p) => p._id === product._id ? { ...p, quantity: p.quantity + 1 } : p)
+            ? state.cart.map((p) =>
+              p._id === product._id
+                ? { ...p, quantity: p.quantity + 1 }
+                : p
+            )
             : [...state.cart, { ...product, quantity: 1 }];
-          cartService.updateCart(updatedCart).catch(console.error);
+
+          // Actualizamos backend con productId y quantity
+          const formattedCart = updatedCart.map((p) => ({
+            productId: p._id,
+            quantity: p.quantity,
+          }));
+
+          cartService.updateCart(formattedCart).catch(console.error);
+
           return { cart: updatedCart };
         });
       },
+
       removeFromCart: async (productId) => {
         set((state) => {
-          const updatedCart = state.cart.filter((p) => p._id !== productId);
-          if (state.user) cartService.removeFromCart(productId).catch(console.error);
+          // Actualizamos el front
+          const updatedCart = state.cart.filter((p) => p.productId !== productId);
+
+          // Actualizamos el backend con el productId correcto
+          if (state.user)
+            cartService.removeFromCart(productId).catch(console.error);
+
           return { cart: updatedCart };
         });
       },
+
       updateCartQuantity: async (productId, quantity) => {
         set((state) => {
-          const updatedCart = state.cart.map((p) => p._id === productId ? { ...p, quantity: quantity < 1 ? 1 : quantity } : p);
-          if (state.user) cartService.updateCart(updatedCart).catch(console.error);
+          const updatedCart = state.cart.map((p) =>
+            p.productId === productId
+              ? { ...p, quantity: quantity < 1 ? 1 : quantity }
+              : p
+          );
+
+          if (state.user)
+            cartService
+              .updateCart(
+                updatedCart.map((p) => ({ productId: p.productId, quantity: p.quantity }))
+              )
+              .catch(console.error);
+
           return { cart: updatedCart };
         });
       },
+
       clearCart: async () => {
         set({ cart: [] });
         if (get().user) cartService.clearCart().catch(console.error);
@@ -66,20 +105,27 @@ export const useStore = create(
             window.location.href = "/login";
             return { favorites: state.favorites };
           }
+
           const exists = state.favorites.some((p) => p._id === product._id);
           if (!exists) {
-            favoritesService.addFavorite(product._id)
+            favoritesService
+              .addFavorite(product._id)
               .then((updatedFavorites) => set({ favorites: updatedFavorites }))
               .catch(console.error);
           }
-          const updatedFavorites = exists ? state.favorites : [...state.favorites, product];
+
+          const updatedFavorites = exists
+            ? state.favorites
+            : [...state.favorites, product];
           return { favorites: updatedFavorites };
         });
       },
+
       removeFromFavorites: async (productId) => {
         set((state) => {
           if (state.user) {
-            favoritesService.removeFavorite(productId)
+            favoritesService
+              .removeFavorite(productId)
               .then((updatedFavorites) => set({ favorites: updatedFavorites }))
               .catch(console.error);
           }
@@ -87,10 +133,12 @@ export const useStore = create(
           return { favorites: updatedFavorites };
         });
       },
+
       clearFavorites: async () => {
         set({ favorites: [] });
         if (get().user) {
-          favoritesService.clearFavorites()
+          favoritesService
+            .clearFavorites()
             .then((updatedFavorites) => set({ favorites: updatedFavorites }))
             .catch(console.error);
         }

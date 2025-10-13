@@ -1,9 +1,9 @@
-import { cartService } from "../services/index.js";
+import * as cartService from "../services/cartService.js";
 
 export const getCart = async (req, res, next) => {
   try {
     const cart = await cartService.getCartByUser(req.user.id);
-    res.json(cart || { products: [], total: 0 });
+    res.json(cart);
   } catch (error) {
     next(error);
   }

@@ -1,10 +1,8 @@
 import clientAxios from "../utils/clientAxios.js";
 
-// Obtener el carrito del usuario
 export const getCart = async () => {
   try {
     const res = await clientAxios.get("/carts");
-    console.log("RES: ", res)
     return res.data.products || [];
   } catch (error) {
     console.error("Error fetching cart:", error);
@@ -12,13 +10,11 @@ export const getCart = async () => {
   }
 };
 
-// Actualizar todo el carrito (envía array completo de productos)
 export const updateCart = async (cartProducts) => {
   try {
     const formattedProducts = cartProducts.map(p => ({
-      productId: p._id,
-      quantity: p.quantity,
-      price: p.price
+      productId: p._id || p.productId,
+      quantity: p.quantity || 1,
     }));
 
     const res = await clientAxios.post("/carts", { products: formattedProducts });
@@ -29,7 +25,6 @@ export const updateCart = async (cartProducts) => {
   }
 };
 
-// Remover un producto específico del carrito
 export const removeFromCart = async (productId) => {
   try {
     const res = await clientAxios.delete(`/carts/${productId}`);
@@ -40,7 +35,6 @@ export const removeFromCart = async (productId) => {
   }
 };
 
-// Limpiar todo el carrito
 export const clearCart = async () => {
   try {
     const res = await clientAxios.delete("/carts/clear");
