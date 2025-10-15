@@ -6,6 +6,7 @@ import {
   Spinner,
   Modal,
   Form,
+  InputGroup,
 } from "react-bootstrap";
 import {
   getProducts,
@@ -26,6 +27,8 @@ const AdminProducts = () => {
     price: 0,
     category: "",
     stock: 0,
+    images: [""],
+    isActive: true,
   });
 
   const fetchProducts = async () => {
@@ -59,11 +62,13 @@ const AdminProducts = () => {
     if (product) {
       setEditingProduct(product);
       setFormData({
-        name: product.name,
-        description: product.description,
-        price: product.price,
-        category: product.category,
-        stock: product.stock,
+        name: product.name || "",
+        description: product.description || "",
+        price: product.price || 0,
+        category: product.category || "",
+        stock: product.stock || 0,
+        images: product.images?.length ? product.images : [""],
+        isActive: product.isActive ?? true,
       });
     } else {
       setEditingProduct(null);
@@ -73,6 +78,8 @@ const AdminProducts = () => {
         price: 0,
         category: "",
         stock: 0,
+        images: [""],
+        isActive: true,
       });
     }
     setShowModal(true);
@@ -84,20 +91,55 @@ const AdminProducts = () => {
   };
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    const { name, value, type, checked } = e.target;
+    let newForm = {
+      ...formData,
+      [name]: type === "checkbox" ? checked : value,
+    };
+
+    // ⚡ Generar imagen por defecto cuando se ingresa el nombre
+    if (name === "name" && value.trim()) {
+      const encoded = encodeURIComponent(value.trim());
+      const defaultImage = `https://picsum.photos/seed/${encoded}/600/600`;
+      if (!formData.images?.[0] || formData.images[0].trim() === "") {
+        newForm.images = [defaultImage];
+      }
+    }
+
+    setFormData(newForm);
+  };
+
+  const handleImageChange = (index, value) => {
+    const newImages = [...formData.images];
+    newImages[index] = value;
+    setFormData({ ...formData, images: newImages });
+  };
+
+  const addImageField = () => {
+    setFormData({ ...formData, images: [...formData.images, ""] });
+  };
+
+  const removeImageField = (index) => {
+    const newImages = formData.images.filter((_, i) => i !== index);
+    setFormData({ ...formData, images: newImages });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const payload = {
+        ...formData,
+        images: formData.images.filter((url) => url.trim() !== ""),
+      };
+
       if (editingProduct) {
-        await updateProduct(editingProduct._id, formData);
+        await updateProduct(editingProduct._id, payload);
         handleResponse({ message: "Producto actualizado correctamente" });
       } else {
-        await createProduct(formData);
+        await createProduct(payload);
         handleResponse({ message: "Producto creado correctamente" });
       }
+
       fetchProducts();
       handleCloseModal();
     } catch (error) {
@@ -122,6 +164,8 @@ const AdminProducts = () => {
               <th>Precio</th>
               <th>Stock</th>
               <th>Categoría</th>
+              <th>Imágenes</th>
+              <th>Activo</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -132,6 +176,23 @@ const AdminProducts = () => {
                 <td>${p.price}</td>
                 <td>{p.stock}</td>
                 <td>{p.category}</td>
+                <td>
+                  {p.images?.length ? (
+                    <img
+                      src={p.images[0]}
+                      alt={p.name}
+                      style={{
+                        width: "60px",
+                        height: "60px",
+                        objectFit: "cover",
+                        borderRadius: "6px",
+                      }}
+                    />
+                  ) : (
+                    "—"
+                  )}
+                </td>
+                <td>{p.isActive ? "Sí" : "No"}</td>
                 <td>
                   <Button
                     variant="info"
@@ -155,8 +216,8 @@ const AdminProducts = () => {
         </Table>
       )}
 
-      {/* Modal de crear/editar */}
-      <Modal show={showModal} onHide={handleCloseModal}>
+      {/* Modal crear / editar producto */}
+      <Modal show={showModal} onHide={handleCloseModal} size="lg">
         <Modal.Header closeButton>
           <Modal.Title>
             {editingProduct ? "Editar Producto" : "Crear Producto"}
@@ -178,6 +239,7 @@ const AdminProducts = () => {
               <Form.Label>Descripción</Form.Label>
               <Form.Control
                 as="textarea"
+                rows={3}
                 name="description"
                 value={formData.description}
                 onChange={handleChange}
@@ -192,6 +254,7 @@ const AdminProducts = () => {
                 value={formData.price}
                 onChange={handleChange}
                 required
+                min={0}
               />
             </Form.Group>
 
@@ -210,6 +273,41 @@ const AdminProducts = () => {
                 type="number"
                 name="stock"
                 value={formData.stock}
+                onChange={handleChange}
+                min={0}
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <Form.Label>Imágenes (URLs)</Form.Label>
+              {formData.images.map((img, index) => (
+                <InputGroup className="mb-2" key={index}>
+                  <Form.Control
+                    type="url"
+                    placeholder="https://ejemplo.com/imagen.jpg"
+                    value={img}
+                    onChange={(e) => handleImageChange(index, e.target.value)}
+                  />
+                  <Button
+                    variant="danger"
+                    onClick={() => removeImageField(index)}
+                    disabled={formData.images.length === 1}
+                  >
+                    ✕
+                  </Button>
+                </InputGroup>
+              ))}
+              <Button variant="secondary" size="sm" onClick={addImageField}>
+                + Agregar imagen
+              </Button>
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="isActive">
+              <Form.Check
+                type="checkbox"
+                label="Producto activo"
+                name="isActive"
+                checked={formData.isActive}
                 onChange={handleChange}
               />
             </Form.Group>

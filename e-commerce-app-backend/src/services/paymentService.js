@@ -29,12 +29,7 @@ export const createPreference = async (productos, returnUrl, user = {}) => {
         failure: `${baseUrl}/failure`,
         pending: `${baseUrl}/pending`,
       },
-      //auto_return: "approved",
-      notification_url: `${process.env.BACKEND_URL || 'http://localhost:5000'}/api/payment/webhook`,
-      metadata: { 
-        userId: user.id || null,
-        userEmail: user.email || null 
-      },
+      auto_return: "approved",
     },
   });
 
