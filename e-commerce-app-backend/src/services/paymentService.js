@@ -25,9 +25,9 @@ export const createPreference = async (productos, returnUrl, user = {}) => {
     body: {
       items,
       back_urls: {
-        success: `${baseUrl}/success`,
-        failure: `${baseUrl}/failure`,
-        pending: `${baseUrl}/pending`,
+        success: `${baseUrl}/payments/success`,
+        failure: `${baseUrl}/payments/failure`,
+        pending: `${baseUrl}/payments/pending`,
       },
       auto_return: "approved",
     },
