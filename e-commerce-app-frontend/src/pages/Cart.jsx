@@ -1,12 +1,19 @@
-import React from "react";
+import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 import { Container, Row, Col, Button, Form, Image, Card } from "react-bootstrap";
 import { useStore } from "../store/useStore.js";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import clientAxios from "../utils/clientAxios.js";
 
 const Cart = () => {
   const cart = useStore((state) => state.cart);
   const removeFromCart = useStore((state) => state.removeFromCart);
   const updateCartQuantity = useStore((state) => state.updateCartQuantity);
+  const [preferenceId, setPreferenceId] = useState(null);
+
+  useEffect(() => {
+    initMercadoPago(import.meta.env.VITE_MERCADOPAGO_PUBLIC_KEY);
+  }, []);
 
   // Normalizar los productos para un formato uniforme
   const normalizedCart = cart.map((item) => {
@@ -27,6 +34,26 @@ const Cart = () => {
   });
 
   const totalPrice = normalizedCart.reduce((acc, i) => acc + i.subtotal, 0);
+
+  const handleCheckout = async () => {
+    try {
+      const response = await clientAxios.post("/payment/create_preference", {
+        items: normalizedCart.map(item => ({
+          title: item.name,
+          cantidad: item.quantity,
+          precio: item.price,
+        })),
+        user: { email: "test_user@example.com" }, // opcional
+        returnUrl: import.meta.env.VITE_FRONTEND_URL // <--- Asegúrate que esté definido
+      });
+
+      const data = response.data;
+      setPreferenceId(data.id);
+    } catch (error) {
+      console.error("Error creando preferencia:", error);
+      alert("Ocurrió un error al generar el pago. Intenta nuevamente.");
+    }
+  };
 
   return (
     <Container className="my-4">
@@ -103,7 +130,14 @@ const Cart = () => {
           <Row className="mt-3 justify-content-end">
             <Col md={4} xs={12} className="text-end">
               <h4>Total: ${totalPrice.toFixed(2)}</h4>
-              <Button variant="success">Ir a pagar</Button>
+
+              {preferenceId ? (
+                <Wallet initialization={{ preferenceId }} />
+              ) : (
+                <Button variant="success" onClick={handleCheckout}>
+                  Ir a pagar
+                </Button>
+              )}
             </Col>
           </Row>
         </>
