@@ -10,6 +10,9 @@ import Register from "../pages/Register.jsx";
 import ProductDetail from "../pages/ProductDetail.jsx";
 import Cart from "../pages/Cart.jsx";
 import Favorites from "../pages/Favorites.jsx";
+import PaymentSuccess from "../pages/payments/PaymentSuccess.jsx";
+import PaymentFailure from "../pages/payments/PaymentFailure.jsx";
+import PaymentPending from "../pages/payments/PaymentPending.jsx";
 
 const AppRoutes = () => {
   return (
@@ -19,6 +22,9 @@ const AppRoutes = () => {
       <Route path="/products/:id" element={<ProductDetail />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/payments/success" element={<PaymentSuccess />} />
+      <Route path="/payments/failure" element={<PaymentFailure />} />
+      <Route path="/payments/pending" element={<PaymentPending />} />
 
       {/* Rutas usuario protegidas */}
       <Route

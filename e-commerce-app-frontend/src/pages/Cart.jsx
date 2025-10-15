@@ -44,7 +44,7 @@ const Cart = () => {
           precio: item.price,
         })),
         user: { email: "test_user@example.com" }, // opcional
-        returnUrl: import.meta.env.VITE_FRONTEND_URL // <--- Asegúrate que esté definido
+        returnUrl: `${import.meta.env.VITE_FRONTEND_URL}/payments`
       });
 
       const data = response.data;
