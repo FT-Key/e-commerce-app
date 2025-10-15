@@ -36,3 +36,24 @@ export const deleteUser = async (req, res, next) => {
     next(error);
   }
 };
+
+export const changeUserRole = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { role } = req.body;
+
+    if (!["user", "admin"].includes(role)) {
+      return res.status(400).json({ message: "Rol inválido" });
+    }
+
+    const updatedUser = await userService.updateUser(id, { role });
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+
+    res.json({ message: "Rol actualizado correctamente", user: updatedUser });
+  } catch (error) {
+    next(error);
+  }
+};

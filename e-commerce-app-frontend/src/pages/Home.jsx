@@ -71,7 +71,7 @@ const Home = () => {
       <Container className="my-5">
         <h2>Categorías</h2>
         <Row className="mt-3">
-          {["Mascarillas", "Guantes", "Ropa Médica", "Otros"].map((cat, i) => (
+          {["Indumentaria", "Cosméticos", "Muebles", "Otros"].map((cat, i) => (
             <Col key={i} md={3}>
               <Button variant="outline-primary" className="w-100 mb-3">
                 {cat}

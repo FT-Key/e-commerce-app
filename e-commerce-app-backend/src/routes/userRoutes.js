@@ -11,6 +11,9 @@ router.use(authMiddleware);
 // Admin puede ver todos los usuarios
 router.get("/", roleMiddleware("admin"), userController.getUsers);
 
+// Admin puede cambiar rol
+router.put("/:id/role", roleMiddleware("admin"), userController.changeUserRole);
+
 // Cualquier usuario autenticado puede ver o actualizar su propio perfil
 router.get("/:id", userController.getUser);
 router.put("/:id", userController.updateUser);

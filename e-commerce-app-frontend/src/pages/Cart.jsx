@@ -8,8 +8,6 @@ const Cart = () => {
   const removeFromCart = useStore((state) => state.removeFromCart);
   const updateCartQuantity = useStore((state) => state.updateCartQuantity);
 
-  console.log("Carrito: ", cart);
-
   // Normalizar los productos para un formato uniforme
   const normalizedCart = cart.map((item) => {
     // Verifica si productId es un objeto poblado
