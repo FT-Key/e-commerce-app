@@ -1,0 +1,419 @@
+/* ============================================
+   FOOTER STYLES - Modern & Animated
+   ============================================ */
+
+.custom-footer {
+  position: relative;
+  background: linear-gradient(135deg, #1C1C1C 0%, #2a2a2a 100%);
+  color: var(--color-text-light);
+  margin-top: auto;
+  overflow: hidden;
+  padding-bottom: 2rem;
+}
+
+/* ============================================
+   WAVE SEPARATOR
+   ============================================ */
+.footer-wave {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  margin-bottom: 3rem;
+}
+
+.footer-wave svg {
+  position: relative;
+  display: block;
+  width: calc(100% + 1.3px);
+  height: 80px;
+}
+
+.footer-wave path {
+  fill: white;
+}
+
+/* ============================================
+   FOOTER CONTENT
+   ============================================ */
+.footer-content {
+  position: relative;
+  z-index: 2;
+}
+
+.footer-main {
+  padding: 2rem 0;
+}
+
+.footer-column {
+  margin-bottom: 2rem;
+}
+
+/* ============================================
+   BRAND SECTION
+   ============================================ */
+.footer-brand {
+  padding-right: 1rem;
+}
+
+.brand-title {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.brand-title .brand-text {
+  color: var(--color-text-light);
+}
+
+.brand-title .brand-accent {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.brand-description {
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+/* ============================================
+   SOCIAL ICONS
+   ============================================ */
+.footer-social-icons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.social-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: rgba(74, 144, 226, 0.1);
+  color: var(--color-text-light);
+  font-size: 1.2rem;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.social-icon::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.4s ease;
+  z-index: -1;
+}
+
+.social-icon.facebook::before {
+  background: #1877f2;
+}
+
+.social-icon.instagram::before {
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+}
+
+.social-icon.twitter::before {
+  background: #1da1f2;
+}
+
+.social-icon:hover {
+  transform: translateY(-5px) scale(1.1);
+  border-color: var(--color-primary-light);
+  box-shadow: 0 8px 20px rgba(74, 144, 226, 0.3);
+}
+
+.social-icon:hover::before {
+  width: 100%;
+  height: 100%;
+}
+
+/* ============================================
+   FOOTER TITLES
+   ============================================ */
+.footer-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--color-text-light);
+  margin-bottom: 1.5rem;
+  position: relative;
+  padding-bottom: 0.75rem;
+}
+
+.footer-title::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background: var(--gradient-primary);
+  border-radius: 2px;
+}
+
+/* ============================================
+   CONTACT LIST
+   ============================================ */
+.footer-contact-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+  padding: 0.5rem;
+  border-radius: 8px;
+}
+
+.contact-item:hover {
+  background: rgba(74, 144, 226, 0.1);
+  transform: translateX(5px);
+}
+
+.contact-icon {
+  color: var(--color-primary);
+  font-size: 1.1rem;
+  margin-right: 1rem;
+  min-width: 20px;
+  transition: all 0.3s ease;
+}
+
+.contact-item:hover .contact-icon {
+  transform: scale(1.2);
+  color: var(--color-secondary);
+}
+
+.contact-item a,
+.contact-item span {
+  color: var(--color-text-muted);
+  text-decoration: none;
+  transition: color 0.3s ease;
+  font-size: 0.95rem;
+}
+
+.contact-item a:hover {
+  color: var(--color-primary-light);
+}
+
+/* ============================================
+   LINKS LIST
+   ============================================ */
+.footer-links-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+}
+
+.footer-links-list li {
+  transition: all 0.3s ease;
+}
+
+.footer-links-list a {
+  color: var(--color-text-muted);
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  display: inline-block;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  position: relative;
+}
+
+.footer-links-list a::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 0.3s ease;
+  color: var(--color-primary);
+}
+
+.footer-links-list a:hover {
+  color: var(--color-primary-light);
+  background: rgba(74, 144, 226, 0.1);
+  padding-left: 1.5rem;
+}
+
+.footer-links-list a:hover::before {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ============================================
+   DIVIDER
+   ============================================ */
+.footer-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(74, 144, 226, 0.3) 20%,
+    rgba(74, 144, 226, 0.6) 50%,
+    rgba(74, 144, 226, 0.3) 80%,
+    transparent 100%
+  );
+  margin: 2rem 0;
+  animation: dividerGlow 3s ease-in-out infinite;
+}
+
+@keyframes dividerGlow {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* ============================================
+   FOOTER BOTTOM
+   ============================================ */
+.footer-bottom {
+  padding: 1.5rem 0 0;
+}
+
+.copyright-text {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  margin: 0;
+  line-height: 1.8;
+}
+
+.made-with {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--color-text-secondary);
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+}
+
+.heart-icon {
+  color: var(--color-accent-pink);
+  animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+@keyframes heartbeat {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  10%,
+  30% {
+    transform: scale(1.2);
+  }
+  20%,
+  40% {
+    transform: scale(1);
+  }
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+  .footer-wave svg {
+    height: 60px;
+  }
+
+  .footer-main {
+    padding: 1rem 0;
+  }
+
+  .footer-column {
+    margin-bottom: 2.5rem;
+    text-align: center;
+  }
+
+  .brand-title {
+    justify-content: center;
+    font-size: 1.7rem;
+  }
+
+  .footer-social-icons {
+    justify-content: center;
+  }
+
+  .footer-title::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .footer-contact-list,
+  .footer-links-list {
+    text-align: left;
+  }
+
+  .footer-links-list {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-item {
+    justify-content: center;
+  }
+
+  .circle-1 {
+    width: 200px;
+    height: 200px;
+    top: -100px;
+    right: -50px;
+  }
+
+  .circle-2 {
+    width: 150px;
+    height: 150px;
+  }
+
+  .circle-3 {
+    width: 180px;
+    height: 180px;
+  }
+}
+
+@media (max-width: 576px) {
+  .brand-title {
+    font-size: 1.5rem;
+  }
+
+  .footer-title {
+    font-size: 1.2rem;
+  }
+
+  .social-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+
+  .footer-wave svg {
+    height: 40px;
+  }
+}

@@ -1,0 +1,453 @@
+/* ============================================
+   HOME PAGE STYLES - Personalizado con Paleta
+   ============================================ */
+
+.home-page {
+  background-color: var(--color-bg-light);
+}
+
+/* ============================================
+   HERO SECTION
+   ============================================ */
+.hero-section {
+  position: relative;
+  background-image: linear-gradient(
+      135deg,
+      rgba(74, 144, 226, 0.85),
+      rgba(26, 188, 156, 0.85)
+    ),
+    url("https://picsum.photos/seed/hero/1400/500");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 0 0 50px 50px;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--overlay-dark);
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 60px 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.hero-title {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 800;
+  color: var(--color-text-light);
+  margin-bottom: 1.5rem;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  letter-spacing: -1px;
+}
+
+.hero-subtitle {
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  color: var(--color-text-inverse);
+  margin-bottom: 2.5rem;
+  font-weight: 300;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.hero-button {
+  background: var(--color-secondary) !important;
+  border: none !important;
+  padding: 15px 45px !important;
+  font-size: 1.1rem !important;
+  font-weight: 600 !important;
+  border-radius: 50px !important;
+  box-shadow: var(--shadow-medium) !important;
+  transition: all 0.3s ease !important;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.hero-button:hover {
+  background: var(--color-secondary-hover) !important;
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-dark) !important;
+}
+
+/* ============================================
+   PRODUCTS SLIDER SECTION
+   ============================================ */
+.products-slider-section {
+  padding: 80px 0;
+  background-color: var(--color-bg-light);
+}
+
+/* ============================================
+   FEATURED SECTION
+   ============================================ */
+.featured-section {
+  padding: 80px 0;
+  background: linear-gradient(
+    180deg,
+    var(--color-bg-light) 0%,
+    var(--color-bg-muted) 100%
+  );
+  border-radius: 50px 50px 0 0;
+}
+
+/* ============================================
+   SECTION TITLES
+   ============================================ */
+.section-title {
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-weight: 700;
+  color: var(--color-text);
+  text-align: center;
+  margin-bottom: 3rem;
+  position: relative;
+  padding-bottom: 20px;
+}
+
+.section-title::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: var(--gradient-primary);
+  border-radius: 2px;
+}
+
+/* ============================================
+   BENEFITS SECTION
+   ============================================ */
+.benefits-section {
+  padding: 80px 0;
+  background-color: var(--color-bg-card);
+}
+
+.benefit-card {
+  background: var(--color-bg-card);
+  padding: 40px 30px;
+  border-radius: 20px;
+  text-align: center;
+  transition: all 0.4s ease;
+  box-shadow: var(--shadow-light);
+  border: 2px solid transparent;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.benefit-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: var(--gradient-primary);
+  transform: scaleX(0);
+  transition: transform 0.4s ease;
+}
+
+.benefit-card:hover {
+  transform: translateY(-10px);
+  box-shadow: var(--shadow-dark);
+  border-color: var(--color-primary-light);
+}
+
+.benefit-card:hover::before {
+  transform: scaleX(1);
+}
+
+.benefit-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 20px;
+  background: var(--gradient-primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s ease;
+}
+
+.benefit-card:hover .benefit-icon {
+  transform: rotate(360deg) scale(1.1);
+}
+
+.benefit-icon i {
+  font-size: 2.5rem;
+  color: var(--color-text-light);
+}
+
+.benefit-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 15px;
+}
+
+.benefit-text {
+  font-size: 1rem;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ============================================
+   NEWSLETTER SECTION
+   ============================================ */
+.newsletter-section {
+  padding: 100px 0;
+  /* Gradiente: color principal arriba, transparente abajo */
+  background: linear-gradient(
+    180deg,
+    var(--color-primary) 0%,
+    rgba(74, 144, 226, 0) 100%
+  );
+  position: relative;
+  overflow: hidden;
+}
+
+.newsletter-section::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.1) 1px,
+    transparent 1px
+  );
+  background-size: 50px 50px;
+  animation: moveBackground 20s linear infinite;
+}
+
+@keyframes moveBackground {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(50px, 50px);
+  }
+}
+
+.newsletter-content {
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.newsletter-title {
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  font-weight: 700;
+  color: var(--color-text-light);
+  margin-bottom: 1rem;
+}
+
+.newsletter-subtitle {
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  color: var(--color-text-inverse);
+  margin-bottom: 2.5rem;
+  font-weight: 300;
+}
+
+.newsletter-form {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.newsletter-input-group {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: stretch;
+  background: var(--color-bg-card);
+  padding: 8px;
+  border-radius: 50px;
+  box-shadow: var(--shadow-medium);
+}
+
+.newsletter-input {
+  flex: 1;
+  border: none !important;
+  background: transparent !important;
+  font-size: 1rem !important;
+  padding: 15px 25px !important;
+  border-radius: 50px !important;
+  color: var(--color-text) !important;
+}
+
+.newsletter-input:focus {
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+.newsletter-input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.newsletter-button {
+  background: var(--color-secondary) !important;
+  border: none !important;
+  padding: 15px 35px !important;
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  border-radius: 50px !important;
+  transition: all 0.3s ease !important;
+  white-space: nowrap;
+  box-shadow: none !important;
+}
+
+.newsletter-button:hover {
+  background: var(--color-secondary-hover) !important;
+  transform: scale(1.05);
+}
+
+/* ============================================
+   BOOTSTRAP OVERRIDES
+   ============================================ */
+
+/* Buttons */
+.btn-primary {
+  background: var(--color-primary) !important;
+  border: none !important;
+  border-radius: 12px !important;
+  padding: 12px 30px !important;
+  font-weight: 600 !important;
+  transition: all 0.3s ease !important;
+  box-shadow: var(--shadow-light) !important;
+}
+
+.btn-primary:hover {
+  background: var(--color-primary-hover) !important;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-medium) !important;
+}
+
+.btn-secondary {
+  background: var(--color-secondary) !important;
+  border: none !important;
+  border-radius: 12px !important;
+}
+
+.btn-secondary:hover {
+  background: var(--color-secondary-hover) !important;
+}
+
+.btn-light {
+  background: var(--color-bg-card) !important;
+  border: 2px solid var(--border-color) !important;
+  color: var(--color-text) !important;
+  border-radius: 12px !important;
+  font-weight: 600 !important;
+}
+
+.btn-light:hover {
+  background: var(--color-primary-light) !important;
+  border-color: var(--color-primary) !important;
+  color: var(--color-primary-dark) !important;
+}
+
+/* Cards */
+.card {
+  border: none !important;
+  border-radius: 16px !important;
+  box-shadow: var(--shadow-light) !important;
+  transition: all 0.3s ease !important;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-medium) !important;
+}
+
+.card-img-top {
+  border-radius: 16px 16px 0 0 !important;
+}
+
+/* Form Controls */
+.form-control {
+  border: 2px solid var(--border-color) !important;
+  border-radius: 12px !important;
+  padding: 12px 18px !important;
+  transition: all 0.3s ease !important;
+}
+
+.form-control:focus {
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 0 3px var(--color-primary-light) !important;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+  .hero-section {
+    min-height: 500px;
+    border-radius: 0 0 30px 30px;
+  }
+
+  .hero-content {
+    padding: 40px 20px;
+  }
+
+  .hero-button {
+    padding: 12px 35px !important;
+    font-size: 1rem !important;
+  }
+
+  .section-title {
+    margin-bottom: 2rem;
+  }
+
+  .benefits-section,
+  .products-slider-section,
+  .featured-section {
+    padding: 50px 0;
+  }
+
+  .newsletter-section {
+    padding: 60px 0;
+  }
+
+  .newsletter-input-group {
+    flex-direction: column;
+    border-radius: 20px;
+  }
+
+  .newsletter-input,
+  .newsletter-button {
+    border-radius: 15px !important;
+  }
+
+  .benefit-card {
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  .featured-section {
+    border-radius: 30px 30px 0 0;
+  }
+
+  .section-title::after {
+    width: 60px;
+  }
+}

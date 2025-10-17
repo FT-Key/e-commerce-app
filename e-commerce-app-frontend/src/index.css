@@ -1,0 +1,64 @@
+:root {
+  /* --- Colores primarios --- */
+  --color-primary: #4A90E2;          /* Azul vibrante */
+  --color-primary-hover: #357ABD;    /* Azul oscuro para hover */
+  --color-primary-light: #a6c8f0;    /* Azul claro / backgrounds suaves */
+  --color-primary-dark: #2C6AB2;     /* Azul más intenso */
+
+  /* --- Colores secundarios --- */
+  --color-secondary: #F5A623;        /* Naranja cálido */
+  --color-secondary-hover: #d4881f;  /* Hover naranja oscuro */
+  --color-secondary-light: #fcd399;  /* Naranja claro / highlights */
+
+  /* --- Colores de acento --- */
+  --color-accent-green: #7ED321;     /* Verde lima suave */
+  --color-accent-pink: #FF6F91;      /* Rosa llamativo */
+  --color-accent-purple: #9B59B6;    /* Morado elegante */
+  --color-accent-teal: #1ABC9C;      /* Verde agua */
+  --color-accent-yellow: #F8E71C;    /* Amarillo brillante */
+
+  /* --- Colores de fondo --- */
+  --color-bg-light: #F7F7F7;         /* Fondo general */
+  --color-bg-dark: #1C1C1C;          /* Fondo oscuro / hero */
+  --color-bg-card: #FFFFFF;          /* Tarjetas, secciones internas */
+  --color-bg-muted: #EAEAEA;         /* Separadores y secciones suaves */
+
+  /* --- Colores de texto --- */
+  --color-text: #333333;             /* Texto principal */
+  --color-text-secondary: #777777;   /* Texto secundario / subtítulos */
+  --color-text-light: #FFFFFF;       /* Texto sobre fondos oscuros */
+  --color-text-muted: #AAAAAA;       /* Texto muy secundario */
+  --color-text-inverse: #F7F7F7;     /* Para contraste sobre oscuro */
+
+  /* --- Alertas y estados --- */
+  --color-success: #7ED321;          /* Verde de éxito */
+  --color-success-light: #DFF5E0;    /* Fondo éxito */
+  --color-error: #E94B35;            /* Rojo de error */
+  --color-error-light: #FDEAEA;      /* Fondo error */
+  --color-warning: #F5A623;          /* Amarillo / alerta */
+  --color-warning-light: #FFF4E5;    /* Fondo alerta */
+  --color-info: #4A90E2;             /* Azul informativo */
+  --color-info-light: #E8F0FA;       /* Fondo informativo */
+
+  /* --- Sombras y bordes --- */
+  --shadow-light: 0 2px 6px rgba(0,0,0,0.08);
+  --shadow-medium: 0 4px 12px rgba(0,0,0,0.15);
+  --shadow-dark: 0 8px 24px rgba(0,0,0,0.25);
+  --border-color: #E0E0E0;           /* Bordes suaves */
+  --border-color-dark: #CCCCCC;      /* Bordes más visibles */
+
+  /* --- Gradientes --- */
+  --gradient-primary: linear-gradient(135deg, #4A90E2 0%, #1ABC9C 100%);
+  --gradient-secondary: linear-gradient(135deg, #F5A623 0%, #FF6F91 100%);
+  --gradient-accent: linear-gradient(135deg, #9B59B6 0%, #7ED321 100%);
+
+  /* --- Transparencias y overlays --- */
+  --overlay-dark: rgba(0,0,0,0.5);
+  --overlay-light: rgba(255,255,255,0.5);
+
+  /* --- Extras / destacados --- */
+  --color-highlight: #FFD700;        /* Dorado para etiquetas o badges */
+  --color-link: #4A90E2;             /* Color de enlaces */
+  --color-link-hover: #357ABD;       /* Hover enlaces */
+  --color-disabled: #CCCCCC;         /* Elementos deshabilitados */
+}

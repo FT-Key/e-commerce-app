@@ -29,7 +29,7 @@ export const createPreference = async (productos, returnUrl, user = {}) => {
         failure: `${baseUrl}/payments/failure`,
         pending: `${baseUrl}/payments/pending`,
       },
-      auto_return: "approved",
+      //auto_return: "approved",
     },
   });
 

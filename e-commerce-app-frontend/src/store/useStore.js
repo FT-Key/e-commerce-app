@@ -40,18 +40,17 @@ export const useStore = create(
             return { cart: state.cart };
           }
 
-          const exists = state.cart.find((p) => p._id === product._id);
+          const exists = state.cart.find((p) => p.productId === product._id);
           const updatedCart = exists
             ? state.cart.map((p) =>
-              p._id === product._id
+              p.productId === product._id
                 ? { ...p, quantity: p.quantity + 1 }
                 : p
             )
-            : [...state.cart, { ...product, quantity: 1 }];
+            : [...state.cart, { productId: product._id, ...product, quantity: 1 }];
 
-          // Actualizamos backend con productId y quantity
           const formattedCart = updatedCart.map((p) => ({
-            productId: p._id,
+            productId: p.productId,
             quantity: p.quantity,
           }));
 
@@ -63,10 +62,8 @@ export const useStore = create(
 
       removeFromCart: async (productId) => {
         set((state) => {
-          // Actualizamos el front
           const updatedCart = state.cart.filter((p) => p.productId !== productId);
 
-          // Actualizamos el backend con el productId correcto
           if (state.user)
             cartService.removeFromCart(productId).catch(console.error);
 
