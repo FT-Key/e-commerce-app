@@ -1,0 +1,719 @@
+/* ============================================
+   ADMIN PANEL - ESTILOS COMPARTIDOS
+   ============================================ */
+
+/* ============================================
+   CONTAINER & LAYOUT
+   ============================================ */
+.admin-container {
+  max-width: 1400px;
+  animation: fadeInUp 0.5s ease-out;
+}
+
+/* ============================================
+   HEADER SECTION
+   ============================================ */
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 3px solid var(--border-color);
+}
+
+.admin-title-section {
+  flex: 1;
+}
+
+.admin-title {
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: var(--color-text);
+  margin: 0;
+  margin-bottom: 0.5rem;
+}
+
+.admin-subtitle {
+  font-size: 1rem;
+  color: var(--color-text-secondary);
+  margin: 0;
+  font-weight: 600;
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+.admin-create-btn {
+  background: var(--gradient-primary) !important;
+  border: none !important;
+  padding: 0.9rem 1.8rem !important;
+  font-weight: 700 !important;
+  font-size: 1rem !important;
+  border-radius: 12px !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+  display: flex;
+  align-items: center;
+}
+
+.admin-create-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4) !important;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.admin-btn-edit,
+.admin-btn-role {
+  background: var(--color-primary) !important;
+  border: none !important;
+  color: white !important;
+  width: 38px !important;
+  height: 38px !important;
+  min-width: 38px !important;
+  min-height: 38px !important;
+  padding: 0 !important;
+  border-radius: 8px !important;
+  transition: all 0.3s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.admin-btn-edit svg,
+.admin-btn-role svg {
+  font-size: 1rem;
+  pointer-events: none;
+  margin: 0;
+  display: block;
+}
+
+.admin-btn-edit:hover,
+.admin-btn-role:hover {
+  background: var(--color-primary-hover) !important;
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3) !important;
+}
+
+.admin-btn-delete {
+  background: var(--color-error) !important;
+  border: none !important;
+  color: white !important;
+  width: 38px !important;
+  height: 38px !important;
+  min-width: 38px !important;
+  min-height: 38px !important;
+  padding: 0 !important;
+  border-radius: 8px !important;
+  transition: all 0.3s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.admin-btn-delete svg {
+  font-size: 1rem;
+  pointer-events: none;
+  margin: 0;
+  display: block;
+}
+
+.admin-btn-delete:hover {
+  background: #c23a2a !important;
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(233, 75, 53, 0.3) !important;
+}
+
+/* ============================================
+   LOADING STATE
+   ============================================ */
+.admin-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 5rem 2rem;
+  background: var(--color-bg-card);
+  border-radius: 16px;
+  box-shadow: var(--shadow-light);
+}
+
+.admin-spinner {
+  width: 3rem;
+  height: 3rem;
+  color: var(--color-primary);
+  margin-bottom: 1rem;
+}
+
+.admin-loading p {
+  color: var(--color-text-secondary);
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+/* ============================================
+   TABLE
+   ============================================ */
+.admin-table-container {
+  background: var(--color-bg-card);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow-light);
+  border: 1px solid var(--border-color);
+}
+
+.admin-table {
+  margin: 0;
+  background: transparent;
+}
+
+.admin-table thead {
+  background: var(--color-bg-muted);
+}
+
+.admin-table thead th {
+  padding: 1.2rem 1rem;
+  font-weight: 800;
+  color: var(--color-text);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: none;
+}
+
+.admin-table tbody tr {
+  transition: all 0.3s ease;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.admin-table tbody tr:hover {
+  background: var(--color-bg-muted);
+}
+
+.admin-table tbody td {
+  padding: 1.2rem 1rem;
+  vertical-align: middle;
+  border: none;
+}
+
+/* ============================================
+   BADGES
+   ============================================ */
+.stock-badge-admin,
+.role-badge,
+.status-badge {
+  padding: 0.5rem 1rem !important;
+  font-weight: 700 !important;
+  font-size: 0.85rem !important;
+  border-radius: 8px !important;
+  display: inline-flex;
+  align-items: center;
+}
+
+.users-count-badge {
+  background: var(--color-primary) !important;
+  color: white !important;
+  padding: 0.7rem 1.5rem !important;
+  font-weight: 700 !important;
+  font-size: 1rem !important;
+  border-radius: 12px !important;
+}
+
+/* ============================================
+   EMPTY STATE
+   ============================================ */
+.admin-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.empty-icon {
+  font-size: 4rem;
+  color: var(--color-text-muted);
+  margin-bottom: 1.5rem;
+  opacity: 0.5;
+}
+
+.admin-empty-state h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.admin-empty-state p {
+  color: var(--color-text-muted);
+  font-size: 1rem;
+  margin-bottom: 2rem;
+}
+
+/* ============================================
+   MODAL
+   ============================================ */
+.admin-modal .modal-content {
+  border-radius: 16px;
+  border: none;
+  box-shadow: var(--shadow-dark);
+}
+
+.admin-modal-header {
+  background: var(--gradient-primary);
+  color: white;
+  padding: 1.5rem 2rem;
+  border-bottom: none;
+  border-radius: 16px 16px 0 0;
+}
+
+.admin-modal-header .modal-title {
+  font-weight: 900;
+  font-size: 1.5rem;
+}
+
+.admin-modal-header .btn-close {
+  filter: brightness(0) invert(1);
+  opacity: 1;
+}
+
+.admin-modal-body {
+  padding: 2rem;
+}
+
+.admin-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-label {
+  font-weight: 700 !important;
+  color: var(--color-text) !important;
+  margin-bottom: 0.5rem !important;
+  font-size: 0.95rem !important;
+}
+
+.admin-input,
+.admin-textarea {
+  border: 2px solid var(--border-color) !important;
+  border-radius: 10px !important;
+  padding: 0.8rem !important;
+  font-size: 1rem !important;
+  transition: all 0.3s ease !important;
+}
+
+.admin-input:focus,
+.admin-textarea:focus {
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1) !important;
+}
+
+.admin-textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.admin-image-input {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.admin-remove-img-btn {
+  background: var(--color-error) !important;
+  border: none !important;
+  color: white !important;
+  padding: 0.8rem 1rem !important;
+  transition: all 0.3s ease !important;
+}
+
+.admin-remove-img-btn:hover:not(:disabled) {
+  background: #c23a2a !important;
+}
+
+.admin-remove-img-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.admin-add-img-btn {
+  background: var(--color-bg-muted) !important;
+  border: 2px dashed var(--border-color-dark) !important;
+  color: var(--color-text) !important;
+  padding: 0.6rem 1.2rem !important;
+  font-weight: 600 !important;
+  border-radius: 8px !important;
+  transition: all 0.3s ease !important;
+}
+
+.admin-add-img-btn:hover {
+  background: var(--color-primary-light) !important;
+  border-color: var(--color-primary) !important;
+  color: var(--color-primary) !important;
+}
+
+.admin-switch {
+  padding: 1rem;
+  background: var(--color-bg-muted);
+  border-radius: 10px;
+}
+
+.admin-switch .form-check-input {
+  width: 3rem;
+  height: 1.5rem;
+  cursor: pointer;
+}
+
+.admin-switch .form-check-input:checked {
+  background-color: var(--color-success);
+  border-color: var(--color-success);
+}
+
+.admin-modal-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 2px solid var(--border-color);
+}
+
+.admin-btn-cancel {
+  background: white !important;
+  border: 2px solid var(--border-color-dark) !important;
+  color: var(--color-text) !important;
+  padding: 0.8rem 2rem !important;
+  font-weight: 700 !important;
+  border-radius: 10px !important;
+  transition: all 0.3s ease !important;
+}
+
+.admin-btn-cancel:hover {
+  background: var(--color-bg-muted) !important;
+  border-color: var(--color-text-secondary) !important;
+}
+
+.admin-btn-submit {
+  background: var(--gradient-primary) !important;
+  border: none !important;
+  color: white !important;
+  padding: 0.8rem 2rem !important;
+  font-weight: 700 !important;
+  border-radius: 10px !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+}
+
+.admin-btn-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4) !important;
+}
+
+/* ============================================
+   PRODUCTS SPECIFIC STYLES
+   ============================================ */
+.product-cell {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.product-thumb {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 2px solid var(--border-color);
+  flex-shrink: 0;
+}
+
+.product-thumb-placeholder {
+  width: 60px;
+  height: 60px;
+  background: var(--color-bg-muted);
+  border-radius: 10px;
+  border: 2px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.product-info-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.product-name {
+  font-weight: 700;
+  color: var(--color-text);
+  font-size: 0.95rem;
+  line-height: 1.3;
+}
+
+.product-id {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.product-price {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--color-primary);
+}
+
+.category-tag {
+  display: inline-block;
+  background: var(--color-bg-muted);
+  padding: 0.4rem 0.9rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+/* ============================================
+   USERS SPECIFIC STYLES
+   ============================================ */
+.user-cell {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-avatar {
+  width: 50px;
+  height: 50px;
+  background: var(--gradient-primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.3rem;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+}
+
+.user-info-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.user-name {
+  font-weight: 700;
+  color: var(--color-text);
+  font-size: 0.95rem;
+  line-height: 1.3;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.you-badge {
+  background: var(--color-info);
+  color: white;
+  padding: 0.15rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.user-id {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.user-email {
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.current-user-row {
+  background: rgba(74, 144, 226, 0.05);
+}
+
+.current-user-row:hover {
+  background: rgba(74, 144, 226, 0.1) !important;
+}
+
+.current-user-text {
+  color: var(--color-text-muted);
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+@media (max-width: 991px) {
+  .admin-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .admin-title {
+    font-size: 1.8rem;
+  }
+
+  .users-count-badge,
+  .admin-create-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 767px) {
+  .admin-title {
+    font-size: 1.5rem;
+  }
+
+  .admin-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .admin-table thead th {
+    padding: 0.8rem 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  .admin-table tbody td {
+    padding: 0.8rem 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  .product-cell,
+  .user-cell {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .product-thumb,
+  .product-thumb-placeholder {
+    width: 50px;
+    height: 50px;
+  }
+
+  .user-avatar {
+    width: 40px;
+    height: 40px;
+    font-size: 1.1rem;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .admin-btn-edit,
+  .admin-btn-role,
+  .admin-btn-delete {
+    width: 100%;
+  }
+
+  .admin-modal-body {
+    padding: 1.5rem;
+  }
+
+  .admin-modal-actions {
+    flex-direction: column;
+  }
+
+  .admin-btn-cancel,
+  .admin-btn-submit {
+    width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .admin-container {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  .admin-header {
+    padding-bottom: 1rem;
+  }
+
+  .admin-title {
+    font-size: 1.3rem;
+  }
+
+  .admin-subtitle {
+    font-size: 0.85rem;
+  }
+
+  .admin-create-btn {
+    padding: 0.7rem 1.2rem !important;
+    font-size: 0.9rem !important;
+  }
+
+  .product-name,
+  .user-name {
+    font-size: 0.85rem;
+  }
+
+  .product-price {
+    font-size: 1rem;
+  }
+
+  .category-tag {
+    padding: 0.3rem 0.7rem;
+    font-size: 0.75rem;
+  }
+
+  .stock-badge-admin,
+  .role-badge,
+  .status-badge {
+    padding: 0.4rem 0.8rem !important;
+    font-size: 0.75rem !important;
+  }
+
+  .admin-modal-header {
+    padding: 1rem 1.5rem;
+  }
+
+  .admin-modal-header .modal-title {
+    font-size: 1.2rem;
+  }
+
+  .admin-label {
+    font-size: 0.85rem !important;
+  }
+
+  .admin-input,
+  .admin-textarea {
+    padding: 0.7rem !important;
+    font-size: 0.9rem !important;
+  }
+}

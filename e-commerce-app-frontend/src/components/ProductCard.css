@@ -270,18 +270,24 @@
 }
 
 .cart-btn-small {
-  background: var(--color-primary) !important;
-  border: none !important;
-  color: white !important;
   width: 50px;
-  padding: 0.8rem !important;
-  font-size: 1.1rem;
-  border-radius: 12px !important;
-  transition: all 0.3s ease !important;
+  height: 50px;
+  padding: 0;
+  font-size: 1.2rem;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: var(--color-primary) !important;
+  border: none !important;
+  color: white !important;
+  transition: all 0.3s ease;
 }
+
+.cart-btn-small.btn-primary {
+  padding: 0 !important;
+}
+
 
 .cart-btn-small:hover {
   background: var(--color-primary-hover) !important;

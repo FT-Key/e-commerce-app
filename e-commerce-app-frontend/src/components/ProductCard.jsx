@@ -52,12 +52,6 @@ const ProductCard = ({ product, mode = "detail", viewMode = "grid", onAddToCart,
           className="product-image"
           onClick={handleViewDetail}
         />
-        <div className="image-overlay">
-          <Button className="quick-view-btn" onClick={handleViewDetail}>
-            <FaEye className="me-2" />
-            Vista Rápida
-          </Button>
-        </div>
       </div>
 
       <Card.Body className="product-body">

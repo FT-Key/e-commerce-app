@@ -7,6 +7,7 @@ import {
   Modal,
   Form,
   InputGroup,
+  Badge,
 } from "react-bootstrap";
 import {
   getProducts,
@@ -15,6 +16,8 @@ import {
   updateProduct,
 } from "../services/productService.js";
 import { handleResponse, handleError } from "../utils/response.js";
+import { FaPlus, FaEdit, FaTrash, FaImage, FaCheck, FaTimes } from "react-icons/fa";
+import "./AdminPanel.css";
 
 const AdminProducts = () => {
   const [products, setProducts] = useState([]);
@@ -97,7 +100,6 @@ const AdminProducts = () => {
       [name]: type === "checkbox" ? checked : value,
     };
 
-    // ⚡ Generar imagen por defecto cuando se ingresa el nombre
     if (name === "name" && value.trim()) {
       const encoded = encodeURIComponent(value.trim());
       const defaultImage = `https://picsum.photos/seed/${encoded}/600/600`;
@@ -148,173 +150,240 @@ const AdminProducts = () => {
   };
 
   return (
-    <Container className="my-5">
-      <h2>Administrar Productos</h2>
-      <Button variant="success" className="mb-3" onClick={() => handleShowModal()}>
-        Crear Producto
-      </Button>
+    <Container className="admin-container my-5">
+      {/* Header */}
+      <div className="admin-header">
+        <div className="admin-title-section">
+          <h1 className="admin-title">Administrar Productos</h1>
+          <p className="admin-subtitle">Gestiona el catálogo de productos de tu tienda</p>
+        </div>
+        <Button className="admin-create-btn" onClick={() => handleShowModal()}>
+          <FaPlus className="me-2" />
+          Crear Producto
+        </Button>
+      </div>
 
+      {/* Content */}
       {loading ? (
-        <Spinner animation="border" />
+        <div className="admin-loading">
+          <Spinner animation="border" className="admin-spinner" />
+          <p>Cargando productos...</p>
+        </div>
       ) : (
-        <Table striped bordered hover responsive>
-          <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Precio</th>
-              <th>Stock</th>
-              <th>Categoría</th>
-              <th>Imágenes</th>
-              <th>Activo</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {products.map((p) => (
-              <tr key={p._id}>
-                <td>{p.name}</td>
-                <td>${p.price}</td>
-                <td>{p.stock}</td>
-                <td>{p.category}</td>
-                <td>
-                  {p.images?.length ? (
-                    <img
-                      src={p.images[0]}
-                      alt={p.name}
-                      style={{
-                        width: "60px",
-                        height: "60px",
-                        objectFit: "cover",
-                        borderRadius: "6px",
-                      }}
-                    />
-                  ) : (
-                    "—"
-                  )}
-                </td>
-                <td>{p.isActive ? "Sí" : "No"}</td>
-                <td>
-                  <Button
-                    variant="info"
-                    size="sm"
-                    className="me-2"
-                    onClick={() => handleShowModal(p)}
-                  >
-                    Editar
-                  </Button>
-                  <Button
-                    variant="danger"
-                    size="sm"
-                    onClick={() => handleDelete(p._id)}
-                  >
-                    Eliminar
-                  </Button>
-                </td>
+        <div className="admin-table-container">
+          <Table className="admin-table" responsive hover>
+            <thead>
+              <tr>
+                <th>Producto</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Categoría</th>
+                <th>Estado</th>
+                <th>Acciones</th>
               </tr>
-            ))}
-          </tbody>
-        </Table>
+            </thead>
+            <tbody>
+              {products.map((p) => (
+                <tr key={p._id}>
+                  <td>
+                    <div className="product-cell">
+                      {p.images?.length ? (
+                        <img
+                          src={p.images[0]}
+                          alt={p.name}
+                          className="product-thumb"
+                        />
+                      ) : (
+                        <div className="product-thumb-placeholder">
+                          <FaImage />
+                        </div>
+                      )}
+                      <div className="product-info-cell">
+                        <span className="product-name">{p.name}</span>
+                        <span className="product-id">ID: {p._id.slice(-8)}</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <span className="product-price">${p.price.toFixed(2)}</span>
+                  </td>
+                  <td>
+                    <Badge 
+                      bg={p.stock < 5 ? "danger" : p.stock < 20 ? "warning" : "success"}
+                      className="stock-badge-admin"
+                    >
+                      {p.stock} unidades
+                    </Badge>
+                  </td>
+                  <td>
+                    <span className="category-tag">{p.category || "Sin categoría"}</span>
+                  </td>
+                  <td>
+                    <Badge bg={p.isActive ? "success" : "secondary"} className="status-badge">
+                      {p.isActive ? <><FaCheck className="me-1" /> Activo</> : <><FaTimes className="me-1" /> Inactivo</>}
+                    </Badge>
+                  </td>
+                  <td>
+                    <div className="action-buttons">
+                      <Button
+                        className="admin-btn-edit"
+                        size="sm"
+                        onClick={() => handleShowModal(p)}
+                      >
+                        <FaEdit />
+                      </Button>
+                      <Button
+                        className="admin-btn-delete"
+                        size="sm"
+                        onClick={() => handleDelete(p._id)}
+                      >
+                        <FaTrash />
+                      </Button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+
+          {products.length === 0 && (
+            <div className="admin-empty-state">
+              <FaImage className="empty-icon" />
+              <h3>No hay productos</h3>
+              <p>Comienza creando tu primer producto</p>
+              <Button className="admin-create-btn" onClick={() => handleShowModal()}>
+                <FaPlus className="me-2" />
+                Crear Producto
+              </Button>
+            </div>
+          )}
+        </div>
       )}
 
-      {/* Modal crear / editar producto */}
-      <Modal show={showModal} onHide={handleCloseModal} size="lg">
-        <Modal.Header closeButton>
+      {/* Modal crear/editar */}
+      <Modal show={showModal} onHide={handleCloseModal} size="lg" className="admin-modal">
+        <Modal.Header closeButton className="admin-modal-header">
           <Modal.Title>
-            {editingProduct ? "Editar Producto" : "Crear Producto"}
+            {editingProduct ? "✏️ Editar Producto" : "➕ Crear Producto"}
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          <Form onSubmit={handleSubmit}>
+        <Modal.Body className="admin-modal-body">
+          <Form onSubmit={handleSubmit} className="admin-form">
             <Form.Group className="mb-3">
-              <Form.Label>Nombre</Form.Label>
+              <Form.Label className="admin-label">Nombre del Producto</Form.Label>
               <Form.Control
+                className="admin-input"
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
+                placeholder="Ej: Laptop Gaming Pro"
                 required
               />
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label>Descripción</Form.Label>
+              <Form.Label className="admin-label">Descripción</Form.Label>
               <Form.Control
                 as="textarea"
                 rows={3}
+                className="admin-textarea"
                 name="description"
                 value={formData.description}
                 onChange={handleChange}
+                placeholder="Describe las características del producto..."
               />
             </Form.Group>
 
-            <Form.Group className="mb-3">
-              <Form.Label>Precio</Form.Label>
-              <Form.Control
-                type="number"
-                name="price"
-                value={formData.price}
-                onChange={handleChange}
-                required
-                min={0}
-              />
-            </Form.Group>
+            <div className="row">
+              <div className="col-md-6">
+                <Form.Group className="mb-3">
+                  <Form.Label className="admin-label">Precio ($)</Form.Label>
+                  <Form.Control
+                    type="number"
+                    className="admin-input"
+                    name="price"
+                    value={formData.price}
+                    onChange={handleChange}
+                    required
+                    min={0}
+                    step="0.01"
+                  />
+                </Form.Group>
+              </div>
+              <div className="col-md-6">
+                <Form.Group className="mb-3">
+                  <Form.Label className="admin-label">Stock</Form.Label>
+                  <Form.Control
+                    type="number"
+                    className="admin-input"
+                    name="stock"
+                    value={formData.stock}
+                    onChange={handleChange}
+                    min={0}
+                  />
+                </Form.Group>
+              </div>
+            </div>
 
             <Form.Group className="mb-3">
-              <Form.Label>Categoría</Form.Label>
+              <Form.Label className="admin-label">Categoría</Form.Label>
               <Form.Control
+                className="admin-input"
                 name="category"
                 value={formData.category}
                 onChange={handleChange}
+                placeholder="Ej: Electrónica, Ropa, Hogar..."
               />
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label>Stock</Form.Label>
-              <Form.Control
-                type="number"
-                name="stock"
-                value={formData.stock}
-                onChange={handleChange}
-                min={0}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-              <Form.Label>Imágenes (URLs)</Form.Label>
+              <Form.Label className="admin-label">
+                <FaImage className="me-2" />
+                Imágenes (URLs)
+              </Form.Label>
               {formData.images.map((img, index) => (
-                <InputGroup className="mb-2" key={index}>
+                <InputGroup className="mb-2 admin-image-input" key={index}>
                   <Form.Control
                     type="url"
+                    className="admin-input"
                     placeholder="https://ejemplo.com/imagen.jpg"
                     value={img}
                     onChange={(e) => handleImageChange(index, e.target.value)}
                   />
                   <Button
-                    variant="danger"
+                    className="admin-remove-img-btn"
                     onClick={() => removeImageField(index)}
                     disabled={formData.images.length === 1}
                   >
-                    ✕
+                    <FaTimes />
                   </Button>
                 </InputGroup>
               ))}
-              <Button variant="secondary" size="sm" onClick={addImageField}>
-                + Agregar imagen
+              <Button className="admin-add-img-btn" size="sm" onClick={addImageField}>
+                <FaPlus className="me-2" />
+                Agregar imagen
               </Button>
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="isActive">
+            <Form.Group className="mb-4" controlId="isActive">
               <Form.Check
-                type="checkbox"
-                label="Producto activo"
+                type="switch"
+                className="admin-switch"
+                label="Producto activo (visible en la tienda)"
                 name="isActive"
                 checked={formData.isActive}
                 onChange={handleChange}
               />
             </Form.Group>
 
-            <Button type="submit" variant="primary">
-              {editingProduct ? "Guardar Cambios" : "Crear Producto"}
-            </Button>
+            <div className="admin-modal-actions">
+              <Button className="admin-btn-cancel" onClick={handleCloseModal}>
+                Cancelar
+              </Button>
+              <Button type="submit" className="admin-btn-submit">
+                {editingProduct ? "💾 Guardar Cambios" : "✨ Crear Producto"}
+              </Button>
+            </div>
           </Form>
         </Modal.Body>
       </Modal>

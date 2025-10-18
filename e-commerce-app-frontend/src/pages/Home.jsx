@@ -5,8 +5,6 @@ import { getProducts } from "../services/productService.js";
 import { useStore } from "../store/useStore.js";
 import ProductCard from "../components/ProductCard.jsx";
 import SkeletonCard from "../components/SkeletonCard.jsx";
-import AOS from "aos";
-import "aos/dist/aos.css";
 import "./Home.css";
 
 const Home = () => {
@@ -15,14 +13,6 @@ const Home = () => {
   const [email, setEmail] = useState("");
   const addToCart = useStore((state) => state.addToCart);
   const addToFavorites = useStore((state) => state.addToFavorites);
-
-  useEffect(() => {
-    AOS.init({
-      duration: 1000,
-      once: true,
-      offset: 100,
-    });
-  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
