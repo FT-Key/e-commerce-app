@@ -6,6 +6,7 @@ import { useStore } from "../store/useStore.js";
 import ProductCard from "../components/ProductCard.jsx";
 import SkeletonCard from "../components/SkeletonCard.jsx";
 import "./Home.css";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -46,9 +47,9 @@ const Home = () => {
           <p className="hero-subtitle">
             Descubre productos exclusivos y ofertas increíbles.
           </p>
-          <Button className="hero-button" size="lg">
+          <Link as="Link" to='/products' className="hero-button" size="lg">
             Explorar Productos
-          </Button>
+          </Link>
         </div>
       </section>
 
