@@ -12,6 +12,7 @@ const Cart = () => {
   const removeFromCart = useStore((state) => state.removeFromCart);
   const updateCartQuantity = useStore((state) => state.updateCartQuantity);
   const [preferenceId, setPreferenceId] = useState(null);
+  const [loadingPayment, setLoadingPayment] = useState(false);
 
   useEffect(() => {
     initMercadoPago(import.meta.env.VITE_MERCADOPAGO_PUBLIC_KEY);
@@ -31,6 +32,7 @@ const Cart = () => {
 
   const handleCheckout = async () => {
     try {
+      setLoadingPayment(true);
       const response = await clientAxios.post("/payment/create_preference", {
         items: normalizedCart.map(item => ({
           title: item.name,
@@ -45,6 +47,8 @@ const Cart = () => {
     } catch (error) {
       console.error("Error creando preferencia:", error);
       alert("Ocurrió un error al generar el pago. Intenta nuevamente.");
+    } finally {
+      setLoadingPayment(false);
     }
   };
 
@@ -99,8 +103,8 @@ const Cart = () => {
             <Col lg={8}>
               <div className="cart-items-section">
                 {normalizedCart.map((item, index) => (
-                  <Card 
-                    className="cart-item-card" 
+                  <Card
+                    className="cart-item-card"
                     key={item.productId}
                     data-aos="fade-up"
                     data-aos-delay={index * 50}
@@ -195,7 +199,7 @@ const Cart = () => {
                 <Card className="summary-card">
                   <Card.Body>
                     <h4 className="summary-title">Resumen del Pedido</h4>
-                    
+
                     <div className="summary-divider"></div>
 
                     <div className="summary-row">
@@ -215,19 +219,25 @@ const Cart = () => {
                       <span className="summary-value">${totalPrice.toFixed(2)}</span>
                     </div>
 
-                    <div className="mt-4">
-                      {preferenceId ? (
+                    <div className="mt-4 payment-section">
+                      {!preferenceId ? (
+                        loadingPayment ? (
+                          <div className="wallet-placeholder">
+                            <div className="wallet-skeleton"></div>
+                          </div>
+                        ) : (
+                          <Button
+                            className="checkout-button w-100 h-100"
+                            size="lg"
+                            onClick={handleCheckout}
+                          >
+                            Proceder al Pago
+                          </Button>
+                        )
+                      ) : (
                         <div className="wallet-wrapper">
                           <Wallet initialization={{ preferenceId }} />
                         </div>
-                      ) : (
-                        <Button 
-                          className="checkout-button" 
-                          size="lg"
-                          onClick={handleCheckout}
-                        >
-                          Proceder al Pago
-                        </Button>
                       )}
                     </div>
 

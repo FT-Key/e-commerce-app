@@ -4,7 +4,6 @@
 
 .product-list-page {
   min-height: 100vh;
-  background: linear-gradient(180deg, var(--color-bg-light) 0%, var(--color-bg-muted) 100%);
   padding: 3rem 0;
 }
 

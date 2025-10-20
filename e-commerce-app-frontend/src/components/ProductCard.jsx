@@ -1,11 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card, Button, Badge } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "../store/useStore.js";
 import { FaHeart, FaShoppingCart, FaEye, FaHeartBroken } from "react-icons/fa";
 import "./ProductCard.css";
 
-const ProductCard = ({ product, mode = "detail", viewMode = "grid", onAddToCart, onAddToFavorites }) => {
+const ProductCard = ({
+  product,
+  mode = "detail",
+  viewMode = "grid",
+  onAddToCart,
+  onAddToFavorites,
+}) => {
   const navigate = useNavigate();
 
   const addToCart = useStore((state) => state.addToCart);
@@ -13,26 +19,25 @@ const ProductCard = ({ product, mode = "detail", viewMode = "grid", onAddToCart,
   const removeFromFavorites = useStore((state) => state.removeFromFavorites);
 
   const handleAddToCart = () => {
-    if (onAddToCart) {
-      onAddToCart();
-    } else {
-      addToCart(product);
-    }
+    if (onAddToCart) onAddToCart();
+    else addToCart(product);
   };
 
   const handleAddToFavorites = () => {
-    if (onAddToFavorites) {
-      onAddToFavorites();
-    } else {
-      addToFavorites(product);
-    }
+    if (onAddToFavorites) onAddToFavorites();
+    else addToFavorites(product);
   };
 
   const handleRemoveFavorite = () => removeFromFavorites(product._id);
   const handleViewDetail = () => navigate(`/products/${product._id}`);
 
   const mainImage =
-    product.images?.[0] || product.image || "https://via.placeholder.com/400x400?text=Sin+Imagen";
+    product.images?.[0] ||
+    product.image ||
+    "https://via.placeholder.com/400x400?text=Sin+Imagen";
+
+  // Control para animar la carga de imagen
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   return (
     <Card className={`product-card ${mode} ${viewMode}`}>
@@ -43,29 +48,39 @@ const ProductCard = ({ product, mode = "detail", viewMode = "grid", onAddToCart,
         </Badge>
       )}
 
-      {/* Imagen del producto */}
+      {/* Imagen del producto con skeleton */}
       <div className="product-image-container">
+        {!imageLoaded && <div className="image-skeleton" />}
         <Card.Img
           variant="top"
           src={mainImage}
           alt={product.name}
-          className="product-image"
+          className={`product-image ${imageLoaded ? "visible" : "hidden"}`}
+          onLoad={() => setImageLoaded(true)}
           onClick={handleViewDetail}
         />
       </div>
 
       <Card.Body className="product-body">
         <div className="product-info">
-          <Card.Title className="product-title" onClick={handleViewDetail}>
+          <Card.Title
+            className="product-title"
+            onClick={handleViewDetail}
+            title={product.name}
+          >
             {product.name}
           </Card.Title>
-          <Card.Text className="product-description">
-            {product.description}
-          </Card.Text>
+          {product.description && (
+            <Card.Text className="product-description">
+              {product.description}
+            </Card.Text>
+          )}
           <div className="product-price-section">
             <span className="product-price">${product.price?.toFixed(2)}</span>
             {product.oldPrice && (
-              <span className="product-old-price">${product.oldPrice?.toFixed(2)}</span>
+              <span className="product-old-price">
+                ${product.oldPrice?.toFixed(2)}
+              </span>
             )}
           </div>
         </div>
@@ -93,7 +108,10 @@ const ProductCard = ({ product, mode = "detail", viewMode = "grid", onAddToCart,
 
           {mode === "favorite" && (
             <div className="favorite-actions">
-              <Button className="remove-favorite-btn" onClick={handleRemoveFavorite}>
+              <Button
+                className="remove-favorite-btn"
+                onClick={handleRemoveFavorite}
+              >
                 <FaHeartBroken className="me-2" />
                 Quitar
               </Button>

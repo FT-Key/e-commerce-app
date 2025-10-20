@@ -7,6 +7,8 @@ import Pagination from "../components/Pagination.jsx";
 import { Container, Row, Col, Form, Button, InputGroup } from "react-bootstrap";
 import { FaSearch, FaFilter, FaTh, FaList, FaBox } from "react-icons/fa";
 import "./ProductList.css";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
@@ -15,11 +17,15 @@ const ProductList = () => {
   const [limit] = useState(12);
   const [search, setSearch] = useState("");
   const [totalPages, setTotalPages] = useState(1);
-  const [viewMode, setViewMode] = useState("grid"); // "grid" o "list"
+  const [viewMode, setViewMode] = useState("grid");
   const [sortBy, setSortBy] = useState("newest");
 
   const addToCart = useStore((state) => state.addToCart);
   const addToFavorites = useStore((state) => state.addToFavorites);
+
+  useEffect(() => {
+    AOS.refreshHard();
+  }, [viewMode]);
 
   const fetchProducts = async () => {
     setLoading(true);
@@ -66,7 +72,7 @@ const ProductList = () => {
                 </p>
               </div>
             </div>
-            
+
             {/* View Mode Toggle */}
             <div className="view-mode-toggle">
               <button
@@ -102,8 +108,8 @@ const ProductList = () => {
                 className="search-input"
               />
               {search && (
-                <Button 
-                  variant="link" 
+                <Button
+                  variant="link"
                   className="clear-search-btn"
                   onClick={handleClearSearch}
                 >
@@ -119,7 +125,7 @@ const ProductList = () => {
           {/* Sort Dropdown */}
           <div className="sort-section">
             <FaFilter className="filter-icon" />
-            <Form.Select 
+            <Form.Select
               className="sort-select"
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
@@ -138,8 +144,8 @@ const ProductList = () => {
         {loading ? (
           <Row className={`products-row ${viewMode}`}>
             {Array.from({ length: limit }).map((_, i) => (
-              <Col 
-                key={i} 
+              <Col
+                key={i}
                 lg={viewMode === "grid" ? 3 : 12}
                 md={viewMode === "grid" ? 4 : 12}
                 sm={viewMode === "grid" ? 6 : 12}
@@ -159,13 +165,13 @@ const ProductList = () => {
             </div>
             <h3 className="no-products-title">No se encontraron productos</h3>
             <p className="no-products-text">
-              {search 
+              {search
                 ? `No hay resultados para "${search}". Intenta con otra búsqueda.`
                 : "No hay productos disponibles en este momento."
               }
             </p>
             {search && (
-              <Button 
+              <Button
                 className="clear-filters-btn"
                 onClick={handleClearSearch}
               >
@@ -187,7 +193,7 @@ const ProductList = () => {
                   data-aos="fade-up"
                   data-aos-delay={index * 50}
                 >
-                  <ProductCard 
+                  <ProductCard
                     product={product}
                     onAddToCart={() => addToCart(product)}
                     onAddToFavorites={() => addToFavorites(product)}

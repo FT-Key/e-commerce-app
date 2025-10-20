@@ -386,6 +386,46 @@
 }
 
 /* ============================================
+   PAYMENT SECTION
+   ============================================ */
+
+.payment-section {
+  position: relative;
+  min-height: 90px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wallet-wrapper,
+.wallet-placeholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90px;
+  width: 100%;
+}
+
+.wallet-skeleton {
+  width: 80%;
+  height: 45px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e5e5e5 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* ============================================
    RESPONSIVE
    ============================================ */
 @media (max-width: 991px) {
