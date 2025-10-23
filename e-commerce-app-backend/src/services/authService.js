@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 
 const JWT_SECRET = process.env.JWT_SECRET || "supersecret";
 
+// Registrar usuario con email/contraseña
 export const registerUser = async ({ name, email, password, role }) => {
   const existing = await User.findOne({ email });
   if (existing) throw new Error("Email already in use");
@@ -13,6 +14,7 @@ export const registerUser = async ({ name, email, password, role }) => {
   return await user.save();
 };
 
+// Login con email/contraseña
 export const loginUser = async ({ email, password }) => {
   const user = await User.findOne({ email });
   if (!user) throw new Error("Invalid credentials");
@@ -27,4 +29,9 @@ export const loginUser = async ({ email, password }) => {
   );
 
   return { user, token };
+};
+
+// Buscar usuario por email
+export const findUserByEmail = async (email) => {
+  return await User.findOne({ email });
 };

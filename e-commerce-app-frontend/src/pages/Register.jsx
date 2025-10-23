@@ -2,16 +2,22 @@ import React, { useState } from "react";
 import { register } from "../services/authService.js";
 import { useNavigate, Link } from "react-router-dom";
 import { Container, Form, Button, Spinner } from "react-bootstrap";
-import { FaUser, FaEnvelope, FaLock, FaUserPlus, FaSignInAlt } from "react-icons/fa";
+import {
+  FaUser,
+  FaEnvelope,
+  FaLock,
+  FaUserPlus,
+  FaGoogle
+} from "react-icons/fa";
+import { signInWithPopup } from "firebase/auth";
+import { auth, googleProvider } from "../config/firebase.js";
 import "./Auth.css";
+import clientAxios from "../utils/clientAxios.js";
+import { useStore } from "../store/useStore.js";
 
 const Register = () => {
   const navigate = useNavigate();
-  const [userData, setUserData] = useState({
-    name: "",
-    email: "",
-    password: "",
-  });
+  const [userData, setUserData] = useState({ name: "", email: "", password: "" });
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
@@ -22,10 +28,36 @@ const Register = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      await register(userData);
+      const response = await register(userData); // backend debe devolver { token, user }
+      const { token, user } = response.data;
+
+      // Guardar usuario + token en el store
+      await useStore.getState().setUser(user, token);
+
       navigate("/");
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleRegister = async () => {
+    setLoading(true);
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+      const firebaseToken = await user.getIdToken();
+
+      const response = await clientAxios.post("/auth/google", { token: firebaseToken });
+      const { token: backendToken, user: backendUser } = response.data;
+
+      // Guardar usuario + token en el store
+      await useStore.getState().setUser(backendUser, backendToken);
+
+      navigate("/");
+    } catch (error) {
+      console.error("Error al iniciar sesión con Google:", error);
     } finally {
       setLoading(false);
     }
@@ -75,10 +107,10 @@ const Register = () => {
               </div>
 
               <Form onSubmit={handleSubmit} className="auth-form">
+                {/* Nombre */}
                 <Form.Group className="mb-4">
                   <Form.Label className="auth-label">
-                    <FaUser className="me-2" />
-                    Nombre Completo
+                    <FaUser className="me-2" /> Nombre Completo
                   </Form.Label>
                   <div className="auth-input-wrapper">
                     <FaUser className="input-icon" />
@@ -94,10 +126,10 @@ const Register = () => {
                   </div>
                 </Form.Group>
 
+                {/* Email */}
                 <Form.Group className="mb-4">
                   <Form.Label className="auth-label">
-                    <FaEnvelope className="me-2" />
-                    Correo Electrónico
+                    <FaEnvelope className="me-2" /> Correo Electrónico
                   </Form.Label>
                   <div className="auth-input-wrapper">
                     <FaEnvelope className="input-icon" />
@@ -113,10 +145,10 @@ const Register = () => {
                   </div>
                 </Form.Group>
 
+                {/* Password */}
                 <Form.Group className="mb-4">
                   <Form.Label className="auth-label">
-                    <FaLock className="me-2" />
-                    Contraseña
+                    <FaLock className="me-2" /> Contraseña
                   </Form.Label>
                   <div className="auth-input-wrapper">
                     <FaLock className="input-icon" />
@@ -131,11 +163,10 @@ const Register = () => {
                       minLength={6}
                     />
                   </div>
-                  <small className="auth-help-text">
-                    Mínimo 6 caracteres
-                  </small>
+                  <small className="auth-help-text">Mínimo 6 caracteres</small>
                 </Form.Group>
 
+                {/* Términos */}
                 <div className="auth-terms mb-4">
                   <Form.Check
                     type="checkbox"
@@ -152,6 +183,7 @@ const Register = () => {
                   />
                 </div>
 
+                {/* Botón Crear Cuenta */}
                 <Button
                   className="auth-submit-btn"
                   type="submit"
@@ -170,10 +202,22 @@ const Register = () => {
                   )}
                 </Button>
 
+                {/* Divisor */}
                 <div className="auth-divider">
                   <span>o</span>
                 </div>
 
+                {/* Botón Google */}
+                <Button
+                  variant="light"
+                  className="auth-google-btn mb-3"
+                  onClick={handleGoogleRegister}
+                >
+                  <FaGoogle className="me-2" />
+                  Continuar con Google
+                </Button>
+
+                {/* Link login */}
                 <div className="auth-register-link">
                   <p>¿Ya tienes cuenta?</p>
                   <Link to="/login" className="auth-link-primary">
