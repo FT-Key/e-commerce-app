@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import { login } from "../services/authService.js";
 import { useNavigate, Link } from "react-router-dom";
 import { Container, Form, Button, Spinner } from "react-bootstrap";
-import { FaEnvelope, FaLock, FaSignInAlt, FaUserPlus } from "react-icons/fa";
+import { FaEnvelope, FaLock, FaSignInAlt, FaUserPlus, FaGoogle } from "react-icons/fa";
+import clientAxios from "../utils/clientAxios.js";
+import { auth, googleProvider } from "../config/firebase.js";
+import { signInWithPopup } from "firebase/auth";
+import { useStore } from "../store/useStore.js";
 import "./Auth.css";
 
 const Login = () => {
@@ -10,18 +14,38 @@ const Login = () => {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
 
-  const handleChange = (e) => {
-    setCredentials({ ...credentials, [e.target.name]: e.target.value });
-  };
+  const handleChange = (e) => setCredentials({ ...credentials, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      await login(credentials);
+      const response = await login(credentials); // backend debe devolver { token, user }
+      const { token, user } = response.data;
+
+      await useStore.getState().setUser(user, token);
       navigate("/");
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    setLoading(true);
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+      const firebaseToken = await user.getIdToken();
+
+      const response = await clientAxios.post("/auth/google", { token: firebaseToken });
+      const { token: backendToken, user: backendUser } = response.data;
+
+      await useStore.getState().setUser(backendUser, backendToken);
+      navigate("/");
+    } catch (error) {
+      console.error("Error al iniciar sesión con Google:", error);
     } finally {
       setLoading(false);
     }
@@ -40,25 +64,6 @@ const Login = () => {
               </div>
               <h3>¡Bienvenido de vuelta!</h3>
               <p>Inicia sesión para acceder a tu cuenta y continuar comprando</p>
-              <div className="auth-features">
-                <div className="feature-item">
-                  <span className="feature-icon">✓</span>
-                  <span>Acceso a ofertas exclusivas</span>
-                </div>
-                <div className="feature-item">
-                  <span className="feature-icon">✓</span>
-                  <span>Historial de compras</span>
-                </div>
-                <div className="feature-item">
-                  <span className="feature-icon">✓</span>
-                  <span>Lista de favoritos</span>
-                </div>
-              </div>
-            </div>
-            <div className="auth-decoration">
-              <div className="decoration-circle circle-1"></div>
-              <div className="decoration-circle circle-2"></div>
-              <div className="decoration-circle circle-3"></div>
             </div>
           </div>
 
@@ -109,19 +114,8 @@ const Login = () => {
                   </div>
                 </Form.Group>
 
-                <div className="auth-options mb-4">
-                  <Form.Check
-                    type="checkbox"
-                    label="Recordarme"
-                    className="auth-checkbox"
-                  />
-                  <Link to="/forgot-password" className="auth-link-small">
-                    ¿Olvidaste tu contraseña?
-                  </Link>
-                </div>
-
                 <Button
-                  className="auth-submit-btn"
+                  className="auth-submit-btn mb-3"
                   type="submit"
                   disabled={loading}
                 >
@@ -136,6 +130,16 @@ const Login = () => {
                       Iniciar Sesión
                     </>
                   )}
+                </Button>
+
+                <Button
+                  className="auth-submit-btn auth-google-btn"
+                  type="button"
+                  onClick={handleGoogleLogin}
+                  disabled={loading}
+                >
+                  <FaGoogle className="me-2" />
+                  Continuar con Google
                 </Button>
 
                 <div className="auth-divider">

@@ -18,3 +18,13 @@ export const login = async (req, res, next) => {
     next(error);
   }
 };
+
+export const googleLogin = async (req, res, next) => {
+  try {
+    const { token } = req.body;
+    const { user, backendToken } = await authService.googleLogin(token);
+    res.json({ user, token: backendToken });
+  } catch (error) {
+    next(error);
+  }
+};
