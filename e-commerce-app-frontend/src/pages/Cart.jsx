@@ -40,7 +40,7 @@ const Cart = () => {
           precio: item.price,
         })),
         user: { email: "test_user@example.com" },
-        returnUrl: `${import.meta.env.VITE_FRONTEND_URL}/payments`
+        //returnUrl: `${import.meta.env.VITE_FRONTEND_URL}/payments`
       });
 
       setPreferenceId(response.data.id);
@@ -117,7 +117,7 @@ const Cart = () => {
                             <Image
                               src={item.images[0] || "https://via.placeholder.com/150"}
                               alt={item.name}
-                              className="product-image"
+                              className="product-image-cart"
                             />
                           </div>
                         </Col>
