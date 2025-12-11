@@ -3,7 +3,6 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export const createPreference = async (productos, returnUrl, user = {}) => {
-  console.log("DATOS: ", productos, returnUrl, user);
 
   const cliente = new MercadoPagoConfig({
     accessToken: process.env.MP_ACCESS_TOKEN,
@@ -29,7 +28,7 @@ export const createPreference = async (productos, returnUrl, user = {}) => {
         failure: `${baseUrl}/payments/failure`,
         pending: `${baseUrl}/payments/pending`,
       },
-      //auto_return: "approved",
+      auto_return: "approved",
     },
   });
 

@@ -7,8 +7,6 @@ export const createPreference = async (req, res) => {
     // Pasamos el returnUrl directamente desde el frontend
     const returnUrl = req.headers.origin || "http://localhost:5173";
 
-    console.log("DATOS CONTROLLER: ", items, returnUrl, user);
-
     const pref = await paymentService.createPreference(items, returnUrl, user);
 
     return res.json({ id: pref.id, init_point: pref.init_point });

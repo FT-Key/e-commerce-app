@@ -38,6 +38,7 @@ const ProductCard = ({
 
   // Control para animar la carga de imagen
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
   return (
     <Card className={`product-card ${mode} ${viewMode}`}>
@@ -50,14 +51,24 @@ const ProductCard = ({
 
       {/* Imagen del producto con skeleton */}
       <div className="product-image-container">
-        {!imageLoaded && <div className="image-skeleton" />}
+        {!imageLoaded && !imageError && <div className="image-skeleton" />}
+        {imageError && (
+          <div className="image-placeholder">
+            <div className="placeholder-icon">📦</div>
+            <div className="placeholder-text">Sin imagen</div>
+          </div>
+        )}
         <Card.Img
           variant="top"
           src={mainImage}
           alt={product.name}
-          className={`product-image ${imageLoaded ? "visible" : "hidden"}`}
+          className={`product-image ${imageLoaded && !imageError ? "visible" : "hidden"}`}
           onLoad={() => setImageLoaded(true)}
-          onClick={handleViewDetail}
+          onError={() => {
+            setImageError(true);
+            setImageLoaded(false);
+          }}
+          onClick={!imageError ? handleViewDetail : undefined}
         />
       </div>
 
