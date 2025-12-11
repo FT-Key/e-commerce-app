@@ -11,12 +11,28 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
-const app = initializeApp(firebaseConfig);
+// Validar que las variables estén configuradas
+const isFirebaseConfigured = () => {
+  return Object.values(firebaseConfig).every(value => value && value !== 'undefined');
+};
 
-export const auth = getAuth(app);
+let app = null;
+let auth = null;
+let googleProvider = null;
 
-export const googleProvider = new GoogleAuthProvider();
-// Esto fuerza a que siempre pregunte qué cuenta usar
-googleProvider.setCustomParameters({
-  prompt: "select_account"
-});
+if (isFirebaseConfigured()) {
+  try {
+    app = initializeApp(firebaseConfig);
+    auth = getAuth(app);
+    googleProvider = new GoogleAuthProvider();
+    googleProvider.setCustomParameters({
+      prompt: "select_account"
+    });
+  } catch (error) {
+    console.error('Error inicializando Firebase:', error);
+  }
+} else {
+  console.warn('⚠️ Firebase no está configurado. Por favor, configura las variables de entorno en .env');
+}
+
+export { auth, googleProvider };
