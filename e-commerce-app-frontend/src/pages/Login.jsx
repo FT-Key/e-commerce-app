@@ -21,7 +21,7 @@ const Login = () => {
     setLoading(true);
     try {
       const response = await login(credentials); // backend debe devolver { token, user }
-      const { token, user } = response.data;
+      const { token, user } = response;
 
       await useStore.getState().setUser(user, token);
       navigate("/");

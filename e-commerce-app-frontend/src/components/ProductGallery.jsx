@@ -12,7 +12,6 @@ const ProductGallery = ({ limit = 6, autoPlay = true, interval = 5000 }) => {
       setLoading(true);
       try {
         const res = await getProducts({ limit });
-        console.log(res.products)
         const slides = res.products.map((p, i) => ({
           original: p.images[0] || `https://dummyimage.com/200x120/ccc/000&text=NoImage`,
           thumbnail: p.images[0] || `https://dummyimage.com/200x120/ccc/000&text=NoImage`,
